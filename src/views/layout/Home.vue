@@ -3,7 +3,7 @@
     <!-- 左侧导航栏 -->
     <Sidebar />
     <!-- 右侧内容区 -->
-    <div class="main-app" :class="{ menuShow: $store.state.collapsed }">
+    <div class="main-app" :class="{ menuShow: $store.state.menu.collapsed }">
       <!-- 内容区头部 -->
       <Head />
       <!-- 内容区主体 -->

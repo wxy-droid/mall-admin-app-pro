@@ -1,7 +1,5 @@
 <template>
-  <div class="login-container">
-    <h1>登录</h1>
-  </div>
+  <h1>新增商品</h1>
 </template>
 
 <script>
