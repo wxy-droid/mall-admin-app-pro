@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- 左侧导航栏 -->
-    <Sidebar />
+    <Sidebar :key="key" />
     <!-- 右侧内容区 -->
     <div class="main-app" :class="{ menuShow: $store.state.menu.collapsed }">
       <!-- 内容区头部 -->
@@ -20,6 +20,16 @@ export default {
     Sidebar,
     Head
   },
+  data() {
+    return {
+      key: new Date().getTime()
+    }
+  },
+  watch: {
+    $route() {
+      this.key = new Date().getTime()
+    }
+  }
 };
 </script>
 

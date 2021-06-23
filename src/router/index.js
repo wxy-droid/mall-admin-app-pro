@@ -24,7 +24,8 @@ const asyncRotuerMap = [{
       component: () => import(/* webpackChunkName: "productList" */'../views/page/productList.vue'),
       meta: {
         title: '商品列表',
-        icon: 'unordered-list'
+        icon: 'unordered-list',
+        isKey: true,
       }
     },
     {
@@ -33,7 +34,18 @@ const asyncRotuerMap = [{
       component: () => import(/* webpackChunkName: "productAdd" */'../views/page/productAdd.vue'),
       meta: {
         title: '新增商品',
-        icon: 'file-add'
+        icon: 'file-add',
+        isKey: true,
+      }
+    },
+    {
+      path: 'productEdit/:id',
+      name: 'ProductEdit',
+      component: () => import(/* webpackChunkName: "productEdit" */'../views/page/productAdd.vue'),
+      meta: {
+        title: '编辑商品',
+        icon: 'file-add',
+        isKey: false,
       }
     },
     {
@@ -42,7 +54,8 @@ const asyncRotuerMap = [{
       component: () => import(/* webpackChunkName: "category" */'../views/page/category.vue'),
       meta: {
         title: '类名管理',
-        icon: 'project'
+        icon: 'project',
+        isKey: true,
       }
     }
   ]
@@ -53,24 +66,26 @@ const router = new VueRouter({
   mode: "history"
 })
 
-let isMenuRouter = false;
+let isMenuRouter = true;
 router.beforeEach((to, from, next) => {
   if (to.path !== '/login') {
     if (to.path === '/logon' || to.path === '/forgetPass' || to.path === '/reviseUser') {
       return next();
     }
     if (store.state.userLoad.user.appkey && store.state.userLoad.user.role) {
-      if (!isMenuRouter) {
+      if (isMenuRouter) {
         const menuRouter = getMenuRouter(asyncRotuerMap, store.state.userLoad.user.role);
         store.dispatch('menuRoutes/changeNewsRouters',routes.concat(menuRouter)).then( () => {
           router.addRoutes(menuRouter);
-          next();
+          return next();
         });
-        isMenuRouter = true;
+        isMenuRouter = false;
       }
-      return next();
+      if (to.path === '/statistics') {
+        return next()
+      }
     }
-    return next('/login');
+    // return next('/login');
   }
   return next();
 })

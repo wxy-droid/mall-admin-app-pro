@@ -21,7 +21,8 @@ export default [
             component: () => import(/* webpackChunkName: "statistics" */'../views/page/statistics.vue'),
             meta: {
                 title: '统计',
-                icon: 'number'
+                icon: 'number',
+                isKey: true,
             }
         }]
     },
